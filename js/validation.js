@@ -64,17 +64,36 @@
         }
     }
 
+    function showError(errorMessage) {
+        let notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.textContent = errorMessage;
+        document.body.append(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+
+    function onSubmitForm(evt) {
+        evt.preventDefault();
+
+        window.backend.save(new FormData(uploadForm), window.preview.hideUploadOverlay, showError);
+    }
+
     hashtagsInput.addEventListener('input', onHashtagsInput);
     hashtagsInput.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 27) {
+        if (evt.keyCode === window.utils.keyCodes.ESC_KEY_CODE) {
             evt.stopPropagation();
         }
     });
 
     descriptionTextarea.addEventListener('input', onDescriptionInput);
     descriptionTextarea.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 27) {
+        if (evt.keyCode === window.utils.keyCodes.ESC_KEY_CODE) {
             evt.stopPropagation();
         }
     });
+
+    uploadForm.addEventListener('submit', onSubmitForm);
 })();

@@ -21,6 +21,14 @@
             };
         })(uploadImage);
         reader.readAsDataURL(file);
+
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function onEscKeyDown(evt) {
+        if (evt.keyCode === window.utils.keyCodes.ESC_KEY_CODE) {
+            hideUploadOverlay();
+        }
     }
 
     function onUploadInputChange(evt) {
@@ -28,11 +36,7 @@
 
         showUploadOverlay(inputValue);
 
-        document.addEventListener('keydown', function (evt) {
-            if (evt.keyCode === 27) {
-                hideUploadOverlay();
-            }
-        })
+        document.addEventListener('keydown', onEscKeyDown);
     }
 
     function showEffectImages(bgImg) {
@@ -45,11 +49,18 @@
         window.filter.resetEffectLevel();
         uploadForm.reset();
 
+        document.body.classList.remove('overflow-hidden');
+
         document.removeEventListener('keydown', hideUploadOverlay);
+        document.removeEventListener('keydown', onEscKeyDown);
     }
 
     uploadInput.addEventListener('change', onUploadInputChange);
     uploadFormCancelBtn.addEventListener('click', function (evt) {
         hideUploadOverlay();
     });
+
+    window.preview = {
+        hideUploadOverlay
+    };
 })();

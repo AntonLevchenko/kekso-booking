@@ -9,16 +9,16 @@
     function renderPictureComment(comment) {
         let commentElem = commentTemplate.cloneNode(true);
 
-        commentElem.querySelector('.social__picture').src = `img/avatar-${window.utils.generateRandomInt(1, 6)}.svg`;
-        commentElem.querySelector('.social__text').textContent = comment;
+        commentElem.querySelector('.social__picture').src = comment.avatar;
+        commentElem.querySelector('.social__text').textContent = comment.message;
 
         return commentElem;
     }
 
-    function renderPictureComments(picture) {
+    function renderPictureComments(comments) {
         commentsContainer.innerHTML = '';
 
-        for (let comment of picture.comments) {
+        for (let comment of comments) {
             commentsContainer.append(renderPictureComment(comment));
         }
     }
@@ -29,7 +29,23 @@
         galleryOverlay.querySelector('.likes-count').textContent = picture.likes;
         galleryOverlay.querySelector('.comments-count').textContent = picture.comments.length;
 
-        renderPictureComments(picture);
+        renderPictureComments(picture.comments);
+
+        document.body.classList.add('overflow-hidden');
+        document.addEventListener('keydown', onEscKeyDown);
+    }
+
+    function onEscKeyDown(evt) {
+        if (evt.keyCode === window.utils.keyCodes.ESC_KEY_CODE) {
+            hidePost();
+        }
+    }
+
+    function hidePost() {
+        galleryOverlay.classList.add('hidden');
+
+        document.body.classList.remove('overflow-hidden');
+        document.removeEventListener('keydown', onEscKeyDown);
     }
 
     window.pictures.picturesContainer.addEventListener('click', function (evt) {
@@ -38,7 +54,7 @@
         let target = evt.target.closest('.picture');
         if ( !target.classList.contains('picture') ) return;
         let id = target.dataset.id;
-        let picture = window.data.picturesArr.find(elem => elem.id === id);
+        let picture = window.pictures.getPictures().find(elem => elem.id === id);
 
         showPost(picture);
     });
@@ -46,7 +62,7 @@
     galleryCloser.addEventListener('click', function (evt) {
         evt.preventDefault();
 
-        galleryOverlay.classList.add('hidden');
+        hidePost();
     });
 
     galleryOverlay.addEventListener('click', function (evt) {

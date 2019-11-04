@@ -66,7 +66,7 @@ body {
   position: absolute;
   left: 50%;
 
-  width: 582px;
+  width: 568px;
   height: 569px;
   margin: 5px 0 0 -291px;
   padding: 0;
@@ -92,7 +92,7 @@ body {
 }
 
 .upload-image {
-  width: 582px;
+  width: 568px;
   height: 569px;
   position: relative;
   z-index: 1;
@@ -227,6 +227,7 @@ body {
   justify-content: center;
   overflow: hidden;
   max-width: 600px;
+  max-height: 600px;
 }
 
 /* Кадрирование */
@@ -655,14 +656,10 @@ input[type=radio]:checked + .upload-effect-label .upload-effect-preview {
 }
 
 @media (min-width: 1000px) and (max-width: 1379px) {
-  .picture:nth-child(1) {
-    margin-right: 600px;
-  }
-  .picture:nth-child(3) {
-    margin-right: 600px;
-  }
+  .picture:nth-child(1),
+  .picture:nth-child(3),
   .picture:nth-child(5) {
-    margin-right: 600px;
+    margin-right: 590px;
   }
 
   .picture:nth-child(2),
@@ -682,12 +679,8 @@ input[type=radio]:checked + .upload-effect-label .upload-effect-preview {
 }
 
 @media only screen and (max-width: 999px){
-  .picture:nth-child(1) {
-    margin-right: 600px;
-  }
-  .picture:nth-child(2) {
-    margin-right: 600px;
-  }
+  .picture:nth-child(1),
+  .picture:nth-child(2),
   .picture:nth-child(3) {
     margin-right: 600px;
   }
@@ -899,4 +892,24 @@ input[type=radio]:checked + .upload-effect-label .upload-effect-preview {
 
 .footer-social-item-vk {
   background-position: -84px 0;
+}
+
+.notification {
+  position: absolute;
+  z-index: 1111;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  max-width: 600px;
+  padding: 5px 15px;
+  box-shadow: 3px 4px 5px rgba(0,0,0,.3);
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  background: red;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }

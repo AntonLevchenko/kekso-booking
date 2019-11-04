@@ -3,7 +3,7 @@
         .content
         .querySelector('.picture');
     let picturesContainer = document.querySelector('.pictures');
-
+    let picturesList = [];
 
     function renderPicture(pictureObj) {
         let pictureElem = pictureCard.cloneNode(true);
@@ -16,15 +16,22 @@
         return pictureElem;
     }
 
-    function renderPictureList() {
-        for (let picture of window.data.picturesArr) {
+    function renderPictureList(responseArr) {
+        picturesList = window.utils.addIdToElems(responseArr);
+
+        for (let picture of picturesList) {
             picturesContainer.append( renderPicture(picture) );
         }
     }
 
-    renderPictureList();
+    function getPictures() {
+        return picturesList;
+    }
+
+    window.backend.load(renderPictureList);
 
     window.pictures = {
-        picturesContainer
+        picturesContainer,
+        getPictures
     }
 })();

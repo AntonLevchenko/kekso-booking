@@ -1,6 +1,15 @@
 (function () {
+    const ESC_KEY_CODE = 27;
+
     function generateRandomInt(min, max) {
         return Math.floor(min + Math.random() * (max + 1 - min));
+    }
+
+    function addIdToElems(elems) {
+        return elems.map(elem => {
+            elem.id = generateId();
+            return elem;
+        });
     }
 
     function generateId() {
@@ -9,6 +18,10 @@
 
     window.utils = {
         generateRandomInt,
-        generateId
+        generateId,
+        addIdToElems,
+        keyCodes: {
+            ESC_KEY_CODE
+        }
     }
 })();
