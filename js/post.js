@@ -69,8 +69,8 @@
         evt.preventDefault();
 
         let target = evt.target;
-
         if (target.closest('.gallery-overlay-preview')) return;
-        galleryOverlay.classList.add('hidden');
+
+        hidePost();
     });
 })();

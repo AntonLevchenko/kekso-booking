@@ -16,22 +16,30 @@
         return pictureElem;
     }
 
-    function renderPictureList(responseArr) {
-        picturesList = window.utils.addIdToElems(responseArr);
+    function renderPictureList(picturesArr) {
+        picturesContainer.innerHTML = '';
 
-        for (let picture of picturesList) {
+        for (let picture of picturesArr) {
             picturesContainer.append( renderPicture(picture) );
         }
+    }
+
+    function onLoadPictures(responseArr) {
+        picturesList = window.utils.addIdToElems(responseArr);
+        renderPictureList(picturesList);
+
+        window.dataFilters.showFilters();
     }
 
     function getPictures() {
         return picturesList;
     }
 
-    window.backend.load(renderPictureList);
+    window.backend.load(onLoadPictures);
 
     window.pictures = {
         picturesContainer,
+        renderPictureList,
         getPictures
     }
 })();
