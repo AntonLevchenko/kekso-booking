@@ -5,6 +5,12 @@
     let commentsContainer = document.querySelector('.social__comments');
     let galleryOverlay = document.querySelector('.gallery-overlay');
     let galleryCloser = document.querySelector('.gallery-overlay-close');
+    let loadMoreBtn = document.querySelector('.btn-load-more');
+    let postComments = [];
+    let commentCounter = 0;
+    let LOAD_COMMENT_STEP = 5;
+    let commentsLength = document.querySelector('.comments-counter');
+    let commentsLoaded = document.querySelector('.comments-loaded');
 
     function renderPictureComment(comment) {
         let commentElem = commentTemplate.cloneNode(true);
@@ -15,9 +21,21 @@
         return commentElem;
     }
 
-    function renderPictureComments(comments) {
-        commentsContainer.innerHTML = '';
+    function onLoadComments() {
+        commentCounter += LOAD_COMMENT_STEP;
 
+        if (postComments.length < LOAD_COMMENT_STEP) {
+            loadMoreBtn.classList.add('hidden');
+            commentCounter = postComments.length;
+        }
+
+        commentsLength.textContent = postComments.length;
+        commentsLoaded.textContent = commentCounter;
+
+        renderPictureCommentList(postComments.splice(0, LOAD_COMMENT_STEP));
+    }
+
+    function renderPictureCommentList(comments) {
         for (let comment of comments) {
             commentsContainer.append(renderPictureComment(comment));
         }
@@ -29,8 +47,11 @@
         galleryOverlay.querySelector('.likes-count').textContent = picture.likes;
         galleryOverlay.querySelector('.comments-count').textContent = picture.comments.length;
 
-        renderPictureComments(picture.comments);
+        commentsContainer.innerHTML = '';
+        postComments = picture.comments.slice();
+        onLoadComments(postComments);
 
+        loadMoreBtn.addEventListener('click', onLoadComments);
         document.body.classList.add('overflow-hidden');
         document.addEventListener('keydown', onEscKeyDown);
     }
@@ -44,6 +65,10 @@
     function hidePost() {
         galleryOverlay.classList.add('hidden');
 
+        loadMoreBtn.classList.remove('hidden');
+        commentCounter = 0;
+
+        loadMoreBtn.removeEventListener('click', onLoadComments);
         document.body.classList.remove('overflow-hidden');
         document.removeEventListener('keydown', onEscKeyDown);
     }

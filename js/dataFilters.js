@@ -43,7 +43,7 @@
 
         filteredPictures = filterNameToFilter[filterName](pictures);
 
-        window.pictures.renderPictureList(filteredPictures);
+        window.utils.debounce(window.pictures.renderPictureList, filteredPictures);
     });
 
     window.dataFilters = {
