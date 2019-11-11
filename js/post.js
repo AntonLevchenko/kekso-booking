@@ -7,9 +7,9 @@
     let galleryCloser = document.querySelector('.gallery-overlay-close');
     let loadMoreBtn = document.querySelector('.btn-load-more');
     let postComments = [];
+    let commentsLengths = 0;
     let commentCounter = 0;
     let LOAD_COMMENT_STEP = 5;
-    let commentsLength = document.querySelector('.comments-counter');
     let commentsLoaded = document.querySelector('.comments-loaded');
 
     function renderPictureComment(comment) {
@@ -24,12 +24,11 @@
     function onLoadComments() {
         commentCounter += LOAD_COMMENT_STEP;
 
-        if (postComments.length < LOAD_COMMENT_STEP) {
+        if (commentCounter > commentsLengths) {
             loadMoreBtn.classList.add('hidden');
-            commentCounter = postComments.length;
+            commentCounter = commentsLengths;
         }
 
-        commentsLength.textContent = postComments.length;
         commentsLoaded.textContent = commentCounter;
 
         renderPictureCommentList(postComments.splice(0, LOAD_COMMENT_STEP));
@@ -41,15 +40,23 @@
         }
     }
 
+    function resetPostPreview() {
+        commentsContainer.innerHTML = '';
+    }
+
     function showPost(picture) {
+        resetPostPreview();
+
         galleryOverlay.classList.remove('hidden');
         galleryOverlay.querySelector('.gallery-overlay-image').src = picture.url;
         galleryOverlay.querySelector('.likes-count').textContent = picture.likes;
-        galleryOverlay.querySelector('.comments-count').textContent = picture.comments.length;
 
-        commentsContainer.innerHTML = '';
+        commentsLengths = picture.comments.length;
+        galleryOverlay.querySelector('.comments-count').textContent = commentsLengths;
+        galleryOverlay.querySelector('.comments-counter').textContent = commentsLengths;
+
         postComments = picture.comments.slice();
-        onLoadComments(postComments);
+        onLoadComments();
 
         loadMoreBtn.addEventListener('click', onLoadComments);
         document.body.classList.add('overflow-hidden');

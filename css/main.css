@@ -928,6 +928,7 @@ input[type=radio]:checked + .upload-effect-label .upload-effect-preview {
 
 .comments-left {
   margin-bottom: 15px;
+  color: #000;
 }
 
 .btn-load-more:hover {
